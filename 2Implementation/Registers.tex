@@ -1,0 +1,16 @@
+\subsection{Registers}
+\label{sec:registers}
+For this specific algorithm, the 8 registers are reserved for the following values: 
+
+\begin{itemize}
+    \item R0: Contains the value 0, and is never changed.\footnote{R0 is actually a pseudo register. It is never defined in Gezel. If \texttt{REG} is asked for the value in R0, it returns the hard-coded value 0. This value cannot be changed.} 
+    \item R1: Contains the loop index for the circular array described in section \ref{sec:AlgIns}.
+    \item R2: Contains the current sum of all elements in the circular array.
+    \item R3: Contains the resulting average, after bit shifting.
+    \item R4: Not used.
+    \item R5: Contains the old value loaded from circular array.
+    \item R6: Contains the new value loaded from data list in memory.
+    \item R7: Contains the address to load from and save to in memory.
+\end{itemize}
+
+It may seem puzzling that R4 is not used. We freed it up by customizing the instructions \texttt{LOAD} and \texttt{SAVEX} to only need one shared register R7 for the external memory address.

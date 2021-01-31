@@ -1,0 +1,40 @@
+\subsection{Program instructions}
+\label{sec:programInstructions}
+
+The program instructions make use of the instructions outlined in table \ref{table:InstructionSet}.
+
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|l|}
+    \hline
+    \textbf{Line} \tablefootnote{The line numbers are in hex. The \texttt{JMP} jumps to line 4. 4 in base 10 = 4 in base 16.} & \textbf{Command} & \textbf{Arguments} & \textbf{Comment} \\
+    \hline \hline
+    1 & \texttt{MOV}   & R0 R1    & Set loop index (R1) to 0.\\ \hline
+    2 & \texttt{MOV}   & R0 R2    & Set sum (R2) to 0. \\ \hline
+    3 & \texttt{MOV}   & R0 R7    & Set external memory address (R7) to 0.\\ \hline \hline
+    4 & \texttt{LOAD}  & R7 R6    & Load new value from external memory.\\
+      &       &          & address R7 into R6 (R6 should hold new value). \\ \hline
+    5 & \texttt{LOADC} & R1 R5    & Load old value from address R1  \\
+      &       &          & in circular array into R5. \\ \hline \hline
+    6 & \texttt{SUB}   & R2 R5 R2 & Subtract old value \\
+      &       &          & from sum and place in R2 (sum). \\ \hline
+    7 & \texttt{ADD}   & R6 R2 R2 & Add new value (from R6) and place in R2 (sum).  \\ \hline
+    8 & \texttt{BTS5}  & R2	R3   & Bit shift sum 5 places to the right \\
+      &                &         & and store result in R3. \\ \hline \hline
+    9 & \texttt{SAVEC} & R1	R6   & Store new data value (R6) in circular \\
+      &                &         & array address (R1+260) in external memory \\ \hline
+    A & \texttt{SAVEX} &  R7 R3   & Store the result at address (R7 + 300). \\
+      &       &          & (hardcoded in external memory) \\ \hline
+    B & \texttt{INLP}  & R1       & Increment loop index, and reset to 0 if R1 $\geq$ 31. \\ \hline
+    C & \texttt{ADD1}  &  R7      &  Add 1 to R7 (external memory address)   \\ \hline
+    D & \texttt{JMP}   & ~        & Jump to start of loop (line 4). \\
+\hline
+    \end{tabular}
+    \caption{Sequence of instructions used in this specific program to implement the algorithm.}
+    \label{table:ProgInstructionSet}
+\end{table}
+
+In summary, lines 1-3 initiate the program. Lines 4-C perform the algorithm outlined in sec \ref{sec:AlgIns}. Lines $[4,5]$, $[6,8]$, $[9,\text{C}]$ correspond to the three steps of the algorithm. As mentioned in the instruction set, the \texttt{JMP} command always jumps to line 4, so it requires no arguments.
+
+% En beskrivelse af hvordan I har implementeret instruktionerne og en begrundelse for hvorfor de er implementeret på den måde. I kan nøjes med at beskrive de væsentligste instruktioner, dvs. dem der stiller særlige krav og dem som I mener at have fundet en særlig elegant løsning til.
+

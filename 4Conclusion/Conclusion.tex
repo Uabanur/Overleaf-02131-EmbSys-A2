@@ -1,0 +1,31 @@
+The goal of this assignment was to achieve proof-of-concept and demonstrate performance of a customized processor that can execute the QRS algorithm. In assignment 1, we predicted that data filtering could be handled in hardware, as several values could be computed simultaneously. \\
+
+\textbf{Design:} In section \ref{sec:maintainedSum} and \ref{sec:AlgIns} (Algorithm), we presented a 3-step algorithm that uses a maintained sum to apply the moving window integration filter. The algorithm was customized to avoid regular division, relying instead on bit shifting. In section \ref{sec:instructionSet} (Instruction set), we presented an instruction set needed to carry out the algorithm.\\
+
+\textbf{Implementation:} In section \ref{sec:registers} (Registers) and \ref{sec:programInstructions} (Program Instructions), we used the instruction set to  formulate a concrete program that carries out the algorithm. A visualization of our CPU is shown in section \ref{sec:cpu} (CPU).\\
+
+\textbf{Consequences:} In order to avoid division, we changed the number of data points to average over from $N=30$ to $N=32$. We examined the consequences from changing the template in C in section \ref{sec:conseq} (Consequences) and appendix \ref{sec:AppComparingPeaks} (Comparing peaks). The change did not cause any loss of information; the same Rpeaks are found, and at similar iteration counts.\\
+
+\textbf{Results:} In section \ref{sec:filteredDataPointsMatchC} (Filtered data points match C), we saw that the Gezel processor succesfully applies the moving window integration filter. The results from the hardware implementation
+match perfectly, i.e. the 250 sets of filtered data points (C vs. Gezel) differ by 0.\\
+
+\textbf{Performance:} In section \ref{sec:performance} (Performance), we estimated the energy usage and CPU speed of the processor. While it was difficult to pinpoint these numbers in Gezel, we estimated that the processor applies the filter 25 times faster. In section \ref{sec:amdahl} (Amdahl), we argued that this at best leads to an overall speedup of 1.9, i.e. cutting the total computation time in half. Each data point takes 44 cycles to process.\\
+
+\textbf{Data flow:} In section \ref{sec:GTKWaveDataflow} (GTKWave), we examined the processor data flow with the tool GTKWave, visualizing how the register and signal values are changed when the 3-step algorithm is applied.\\
+
+Overall, we conclude that it is reasonable to implement the moving window integration in hardware. We predict that other filters could be implemented as well, with a similar approach.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height = 1cm ,width=1cm]{4Conclusion/Smiley.pdf}
+\end{figure}
+
+\subsection{Discussion}
+\label{sec:discussion}
+\textbf{What is the gain?} The hardware implementation of the moving window integration filter appears to be significantly faster in than the software solution. However: we have not yet examined how much of the speedup gain will be lost due to communication between software and hardware. In Gezel, the CPU spends most of the "computation time" stalling and waiting for the bus to finish communicating with the external memory. \\
+
+\textbf{Could we have achieved a similar speedup in software?} Implementing the hardware solution took many hours. If we instead had spent those hours improving the C program (implementing bit shifts, better loop indexing etc.), we might have reached a significant speed up. While it difficult to obtain a 25-times increase in speed in one part, we might have several segments up by a factor 2. Using Amdahl's law, speeding up several segments slightly (high $r$, low $s_v$) may lead to more improvement than focusing entirely on one segment (low $r$, high $s_v$).
+
+\subsection{Perspective}
+\label{sec:perspective}
+In assignment 3, we will investigate the gain from implementing parts of the ECG scanner as a dedicated hardware implementation as co-processor. This should help us determine how much of the gain is lost in communicating between software and hardware. No matter the outcome, assignment 2 gave us valuable experience in implementing computational problems in hardware, simulating components with a hardware description language, and visualizing the results in waveform.
